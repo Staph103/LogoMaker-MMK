@@ -6,7 +6,7 @@ const inquirer = require('inquirer');
 inquirer
 .prompt([
     // Pass your questions in here 
-    { type: 'maxlength-input', name: 'title', message: 'What is the name of your logo (must be 3 characters)', maxLength: 3},
+    { type: 'maxlength-input', name: 'title', message: 'What is the name of your logo (must be 3 characters)',validate: (input) => input.length <= 3},
     { type: 'input', name: 'color', message: 'What color would you like for the text' },
     { type: 'list', name: 'shape', message: 'Pick a shape', choices: ['circle', 'triangle', 'square']},
     { type: 'input', name: 'color', message: 'What color would you like for the shape' },
