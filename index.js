@@ -11,11 +11,34 @@ function logoGenerator(){
         { type: 'list', name: 'shape', message: 'Pick a shape', choices: ['circle', 'triangle', 'square']},
         { type: 'input', name: 'shapeColor', message: 'What color would you like for the shape (color name or hexadecimal)' },
 
-    ]).then((response) => {
+    ]).then((res) => {
+        let newShape;
+        switch(res.shape){
+            case 'circle':
+            newShape = new Cir();
+            break;
+            
+        }
+        switch(res.shape){
+            case 'triangle':
+            newShape = new Tri();
+            break;
+            
+        }
+        switch(res.shape){
+            case 'square':
+            newShape = new Sqr();
+            break;
+            
+        }
+
+    })
+    
+    .then((res) => {
         const svgLogo = `
         <svg width ='300' height='200'>
-        <${response.shape} fill ="${response.shapeColor}"/>
-        <text x="20" y="30"  fill="${response.txtColor}">${response.letters}/>
+        <${res.shape} fill ="${res.shapeColor}"/>
+        <text x="20" y="30"  fill="${res.txtColor}">${res.letters}/>
         </svg>  
         `;
         fs.writeFile('logo.svg',svgLogo, (err) => {
