@@ -1,47 +1,39 @@
 const fs = require('fs')
-// const shapes = require('./logoGenerator.test')
 const inquirer = require('inquirer');
+const { shapes, Sqr, Tri, Cir } = require("./lib/shapes")
 
-
-function logoGenerator(){
+function logoGenerator() {
     inquirer.prompt([
         // Pass your questions in here 
-        { type: 'maxlength-input', name: 'letters', message: 'What is the name of your logo (must be 3 characters)', validate: (input) => input.length <= 3 && input.length >= 3},
+        {
+            type: 'input',
+            name: 'letters',
+            message: 'What is the name of your logo (must be 3 characters)',
+            validate: (input) => input.length <= 3 && input.length >= 3
+        },
         { type: 'input', name: 'txtColor', message: 'What color would you like for the text (color name or hexadecimal)' },
-        { type: 'list', name: 'shape', message: 'Pick a shape', choices: ['circle', 'triangle', 'square']},
+        { type: 'list', name: 'shape', message: 'Pick a shape', choices: ['circle', 'triangle', 'square'] },
         { type: 'input', name: 'shapeColor', message: 'What color would you like for the shape (color name or hexadecimal)' },
-
+        
     ]).then((res) => {
         let newShape;
-        switch(res.shape){
+
+        switch (res.shape) {
             case 'circle':
-            newShape = new Cir();
-            break;
-            
-        }
-        switch(res.shape){
+                newShape = new Cir(res.letters, res.txtColor, res.shapeColor);
+                break;
+
             case 'triangle':
-            newShape = new Tri();
-            break;
-            
-        }
-        switch(res.shape){
+                newShape = new Tri(res.letters, res.txtColor, res.shapeColor);
+                break;
+
             case 'square':
-            newShape = new Sqr();
-            break;
-            
+                newShape = new Sqr(res.letters, res.txtColor, res.shapeColor);
+                break;
+
         }
 
-    })
-    
-    .then((res) => {
-        const svgLogo = `
-        <svg width ='300' height='200'>
-        <${res.shape} fill ="${res.shapeColor}"/>
-        <text x="20" y="30"  fill="${res.txtColor}">${res.letters}/>
-        </svg>  
-        `;
-        fs.writeFile('logo.svg',svgLogo, (err) => {
+        fs.writeFile('logo.svg', newShape.render(), (err) => {
             if (err) {
                 console.log(err)
             }
@@ -49,19 +41,10 @@ function logoGenerator(){
                 console.log("Successfully generated")
             }
         })
+
     })
 }
 
-    
 
 
-
-    // .then((answers) => {
-
-    //     const logoInfo = 
-        
-
-//     })
-// }
-    
 logoGenerator();
